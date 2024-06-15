@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchJobs } from "../api/Job";
+import { Header } from "../components/Header";
 
 function HomePage() {
 	const [jobs, setJobs] = useState([]);
@@ -22,7 +23,7 @@ function HomePage() {
 
 	return (
 		<div>
-			Homepage
+			<Header />
 			{jobs.map((job, index) => (
 				<div key={index}>
 					<h3>{job.companyName}</h3>

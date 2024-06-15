@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Register } from "../api/User";
+import { Login, Register } from "../api/User";
 import { Navigate } from "react-router-dom";
 
 function RegisterPage() {
@@ -12,9 +12,13 @@ function RegisterPage() {
 	const handleRegister = async () => {
 		const response = await Register(name, email, mobile, password);
 		if (response.status === 201) {
-			localStorage.setItem("email", email);
-			localStorage.setItem("password", password);
-			setShowLoginRedirect(true);
+			const loginResponse = await Login(email, password);
+			if (loginResponse.status === 200) {
+				const { data } = loginResponse;
+				const { token } = data;
+				localStorage.setItem("token", token);
+				setShowLoginRedirect(true);
+			}
 		}
 	};
 
@@ -46,7 +50,7 @@ function RegisterPage() {
 				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<button onClick={handleRegister}>Register</button>
-			{showLoginRedirect && <Navigate to="/login" />}
+			{showLoginRedirect && <Navigate to="/" />}
 		</div>
 	);
 }
