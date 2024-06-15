@@ -12,5 +12,21 @@ const fetchJobs = async () => {
     }
 };
 
+const fetchJobs = async ({ searchTerm, filters }) => {
+    try {
+        const response = await axios.get(`${BACKEND_ORIGIN_URL}/job`, {
+            params: {
+                searchTerm,
+                fullTime: filters.fullTime,
+                partTime: filters.partTime,
+                remote: filters.remote,
+            },
+        });
+        return response;
+    } catch (error) {
+        return error.response.data;
+    }
+};
+
 
 export { fetchJobs };
