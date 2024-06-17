@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchJobs } from "../api/Job";
+import { fetchJobs, fetchJobsByQuery } from "../api/Job";
 import { Header } from "../components/Header";
+import { QueryWidget } from "../components/QueryWidget";
 
 function HomePage() {
 	const [jobs, setJobs] = useState([]);
@@ -11,7 +12,12 @@ function HomePage() {
 	}, []);
 
 	const handleFetchJobs = async () => {
-		const response = await fetchJobs();
+		const query = {
+			minSalary: 0,
+			maxSalary: 100000000,
+		};
+		const response = await fetchJobsByQuery(query);
+
 		if (response.status == 200) {
 			setJobs(response.data.jobs);
 		}
@@ -24,6 +30,7 @@ function HomePage() {
 	return (
 		<div>
 			<Header />
+			<QueryWidget />
 			{jobs.map((job, index) => (
 				<div key={index}>
 					<h3>{job.companyName}</h3>

@@ -56,17 +56,16 @@ function getFilteredJobs() {
     return async (req, res) => {
 
         try {
-            const { minSalary, maxSalary, jobType, location, remote, skills } = req.query;
+            const { title, minSalary, maxSalary, jobType, location, skills } = req.query;
             const skillsArray = skills ? skills.split(',') : [];
             const jobs = await Job.find(
                 {
-                    monthlySalary: {
-                        $gte: minSalary || 0,
-                        $lte: maxSalary || 999999999
+                    salary: {
+                        $gte: parseInt(minSalary) || 0,
+                        $lte: parseInt(maxSalary) || 999999999
                     },
                     jobType: jobType || { $exists: true },
                     location: location || { $exists: true },
-                    remote: remote == 'true' || { $exists: true },
                 }
             );
 

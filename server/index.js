@@ -33,6 +33,7 @@ app.get('/health', (req, res) => {
     });
 });
 
+// REDIRECT PAGE TO 404
 app.use("*", (req, res) => {
     res.status(404).json({
         message: 'Endpoint not found',
