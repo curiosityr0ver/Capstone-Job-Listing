@@ -26,7 +26,6 @@ function registerUser() {
 
                 await newUser.save();
 
-                console.log("After commiting: ", newUser);
                 res.status(201).json({
                     message: 'User created successfully',
                     user: newUser

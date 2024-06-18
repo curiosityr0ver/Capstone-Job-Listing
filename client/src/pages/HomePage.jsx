@@ -2,20 +2,24 @@ import { useEffect, useState } from "react";
 import { fetchJobs, fetchJobsByQuery } from "../api/Job";
 import { Header } from "../components/Header";
 import { QueryWidget } from "../components/QueryWidget";
+import { JobCard } from "../components/JobCard";
 
 function HomePage() {
 	const [jobs, setJobs] = useState([]);
-	const altJobIcon = "https://static.thenounproject.com/png/2343509-200.png";
+	const [query, setQuery] = useState({
+		title: "",
+		skills: [],
+	});
 
 	useEffect(() => {
 		handleFetchJobs();
 	}, []);
 
+	useEffect(() => {
+		console.log(query);
+	}, [query]);
+
 	const handleFetchJobs = async () => {
-		const query = {
-			minSalary: 0,
-			maxSalary: 100000000,
-		};
 		const response = await fetchJobsByQuery(query);
 
 		if (response.status == 200) {
@@ -30,13 +34,13 @@ function HomePage() {
 	return (
 		<div>
 			<Header />
-			<QueryWidget />
+			<QueryWidget
+				query={query}
+				setQuery={setQuery}
+				handleFetchJobs={handleFetchJobs}
+			/>
 			{jobs.map((job, index) => (
-				<div key={index}>
-					<h3>{job.companyName}</h3>
-					<h4>{job.jobType}</h4>
-					<img src={job.logoUrl} alt={altJobIcon} />
-				</div>
+				<JobCard job={job} key={index} />
 			))}
 		</div>
 	);
