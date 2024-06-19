@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Login } from "../api/User";
 import { Navigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage({ setCurrentUser }) {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 	const [redirectToHome, setRedirectToHome] = useState(false);
@@ -23,6 +24,7 @@ function LoginPage() {
 		const response = await Login(email, password);
 		console.log(response);
 		if (response.status == 200) {
+			setCurrentUser(true);
 			localStorage.setItem("token", response.data.token);
 			setRedirectToHome(true);
 		}

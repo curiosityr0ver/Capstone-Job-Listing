@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
 function registerUser() {
     return async (req, res, next) => {
         try {
@@ -50,8 +53,7 @@ function handleLogin() {
                 if (isPasswordCorrect) {
                     const token = jwt.sign(
                         { userID: existingUser._id }, //PAYLOAD (object you to convert to a string/token)
-                        'secret', // Secret Key, key that is being used to encrypt and validation signature
-                        { expiresIn: '1h' } //Optional argument, to make the token temporary 
+                        JWT_SECRET // Secret Key, key that is being used to encrypt and validation signature
                     );
                     res.status(200).json({
                         message: 'Login successful',

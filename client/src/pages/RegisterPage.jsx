@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
+
 import { useState } from "react";
 import { Login, Register } from "../api/User";
 import { Navigate } from "react-router-dom";
 
-function RegisterPage() {
+function RegisterPage({ setCurrentUser }) {
 	const [name, setName] = useState();
 	const [email, setEmail] = useState();
 	const [mobile, setMobile] = useState();
@@ -14,6 +16,7 @@ function RegisterPage() {
 		if (response.status === 201) {
 			const loginResponse = await Login(email, password);
 			if (loginResponse.status === 200) {
+				setCurrentUser(true);
 				const { data } = loginResponse;
 				const { token } = data;
 				localStorage.setItem("token", token);

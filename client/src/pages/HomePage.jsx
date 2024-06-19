@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
+
 import { useEffect, useState } from "react";
 import { fetchJobs, fetchJobsByQuery } from "../api/Job";
 import { Header } from "../components/Header";
 import { QueryWidget } from "../components/QueryWidget";
 import { JobCard } from "../components/JobCard";
 
-function HomePage() {
+function HomePage({ currentUser, setCurrentUser }) {
 	const [jobs, setJobs] = useState([]);
 	const [query, setQuery] = useState({
 		title: "",
@@ -15,10 +17,6 @@ function HomePage() {
 		handleFetchJobs();
 	}, []);
 
-	useEffect(() => {
-		console.log(query);
-	}, [query]);
-
 	const handleFetchJobs = async () => {
 		const response = await fetchJobsByQuery(query);
 
@@ -27,13 +25,9 @@ function HomePage() {
 		}
 	};
 
-	useEffect(() => {
-		console.log(jobs);
-	}, [jobs]);
-
 	return (
 		<div>
-			<Header />
+			<Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
 			<QueryWidget
 				query={query}
 				setQuery={setQuery}
