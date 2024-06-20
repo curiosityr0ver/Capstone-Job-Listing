@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import JobPage from "./pages/JobPage.jsx";
+import CreateJobPage from "./pages/CreateJobPage.jsx";
 
 import "./App.css";
 function App() {
@@ -39,6 +40,10 @@ function App() {
 							setCurrentUser={setCurrentUser}
 						/>
 					}
+				/>
+				<Route
+					path="/create"
+					element={<CreateJobPage currentUser={currentUser} />}
 				/>
 			</Routes>
 		</BrowserRouter>
