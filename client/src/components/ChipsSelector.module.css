@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+.inputBar {
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.chipsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 30vw;
+    justify-content: space-evenly;
+    font-family: "DM Sans", sans-serif;
+}
+
+.chip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #ffeeee;
+    max-width: 6vw;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.close {
+    background-color: #ED5353;
+    border-radius: 0px 2px 2px 0px;
+    color: white;
+    padding: 5px;
+}

@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
+import ChipsSelector from "../components/ChipsSelector";
+import styles from "./CreateJobPage.module.css";
 
 const CreateJobPage = ({ currentUser }) => {
 	const validJobTypes = ["Full-Time", "Part-Time", "Internship"];
@@ -16,7 +18,7 @@ const CreateJobPage = ({ currentUser }) => {
 		duration: "",
 		locationType: "",
 		information: "",
-		skills: "",
+		skills: [],
 	});
 
 	const handleJobTypeChange = (value) => {
@@ -36,22 +38,71 @@ const CreateJobPage = ({ currentUser }) => {
 	}, [job]);
 
 	return (
-		<div>
+		<div className={styles.body}>
 			<h3>Add job description</h3>
 
-			<label>Company Name</label>
-			<input
-				type="text"
-				value={job.companyName}
-				onChange={(e) => setJob({ ...job, companyName: e.target.value })}
-			/>
+			<div className={styles.inputElement}>
+				<label>Company Name</label>
+				<input
+					type="text"
+					value={job.companyName}
+					onChange={(e) => setJob({ ...job, companyName: e.target.value })}
+				/>
+			</div>
 
-			<label>Title</label>
-			<input
-				type="text"
-				value={job.title}
-				onChange={(e) => setJob({ ...job, title: e.target.value })}
-			/>
+			<div className={styles.inputElement}>
+				<label>Add logo URL</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
+
+			<div className={styles.inputElement}>
+				<label>Title</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
+
+			<div className={styles.inputElement}>
+				<label>Title</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
+
+			<div className={styles.inputElement}>
+				<label>Title</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
+
+			<div className={styles.inputElement}>
+				<label>Title</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
+
+			<div className={styles.inputElement}>
+				<label>Title</label>
+				<input
+					type="text"
+					value={job.title}
+					onChange={(e) => setJob({ ...job, title: e.target.value })}
+				/>
+			</div>
 
 			<label>Description</label>
 			<input
@@ -115,6 +166,13 @@ const CreateJobPage = ({ currentUser }) => {
 				type="text"
 				value={job.information}
 				onChange={(e) => setJob({ ...job, information: e.target.value })}
+			/>
+
+			<hr />
+			<hr />
+			<ChipsSelector
+				selectedSkills={job.skills}
+				setSelectedSkills={(skills) => setJob({ ...job, skills })}
 			/>
 
 			<button>Cancel</button>
