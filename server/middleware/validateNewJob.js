@@ -1,9 +1,8 @@
 const validateNewJob = (req, res, next) => {
-    // company name, logo URL, job position/title
-    //monthly salary, job type, remote, location, job description
-    //about company, skills required, additional information
+
     const { companyName, title, description, logoUrl, salary, location, duration, locationType, information, jobType, skills } = req.body;
     const refUserId = req.refUserId;
+
     if (!companyName || !title || !description || !logoUrl || !salary || !location || !duration || !locationType || !information || !jobType || !skills || !refUserId) {
         return res.status(400).json({
             message: 'Please provide all required fields',
@@ -16,6 +15,7 @@ const validateNewJob = (req, res, next) => {
     const validJobType = validJobTypes.includes(jobType);
     const validLogoUrl = logoUrl.match(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i);
     const validLocationType = validLocationTypes.includes(locationType);
+
     if (!validJobType) {
         return res.status(400).json({
             message: 'Invalid job type',
