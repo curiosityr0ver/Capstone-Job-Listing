@@ -1,126 +1,148 @@
-const Job = require('../model/Job');
+const Job = require('../model/Job.js');
 
-function getJobById() {
-    return async (req, res) => {
-        try {
-            const jobID = req.params.id;
-            const job = await Job.findById(jobID);
-            if (job) {
-                res.status(200).json({
-                    message: 'Job found',
-                    job: job
-                });
+const getJobById = async (req, res, next) => {
+    const jobId = req.params.id
+    try {
+        const job = await Job.findById(jobId);
+        if (job) {
+            res.status(200).json({
+                message: 'Job found',
+                job
+            });
+        }
+    } catch (error) {
+        next({
+            message: 'Job not found',
+            error
+        })
+    }
+};
+
+const createNewJob = async (req, res, next) => {
+    try {
+        const { companyName, title, description, logoUrl, jobPosition, salary, location, duration, locationType, information, jobType, skills, additionalInformation } = req.body;
+        const refUserId = req.refUserId;
+        const newJob = new Job({
+            companyName,
+            title,
+            description,
+            logoUrl,
+            jobPosition,
+            salary,
+            location,
+            duration,
+            locationType,
+            information,
+            jobType,
+            skills,
+            additionalInformation,
+            refUserId
+        });
+        await newJob.save();
+        res.status(201).json({
+            message: 'Job added successfully',
+            jobID: newJob._id
+        });
+    } catch (error) {
+        next({
+            message: 'Error while adding Job',
+            error
+        })
+    }
+};
+
+const getFilteredJobs = async (req, res, next) => {
+    try {
+        const { title, skills } = req.query;
+        console.log(title, skills);
+        const jobs = await Job.find(
+            {
+                title: title || { $exists: true },
             }
-        } catch (error) {
-            next("Error Finding Job", error);
-        }
-    };
-}
+        );
 
-function createNewJob() {
-    return async (req, res, next) => {
-        try {
-            const { companyName, title, description, logoUrl, jobPosition, salary, location, duration, locationType, information, jobType, skills } = req.body;
-            const refUserId = req.refUserId;
-            const newJob = new Job({
-                companyName,
-                title,
-                description,
-                logoUrl,
-                jobPosition,
-                salary,
-                location,
-                duration,
-                locationType,
-                information,
-                jobType,
-                skills,
-                refUserId
-            });
+        // const { minSalary, maxSalary, jobType, location, skills } = req.query;
+        // const skillsArray = skills ? skills.split(",") : []
+        // const jobs = await Job.find(
+        //     {
+        //         salary: {
+        //             $gte: minSalary ? Number(minSalary) : 0, // Convert to number
+        //             $lte: maxSalary ? Number(maxSalary) : 999999999 // Convert to number
+        //         },
+        //         jobType: jobType || { $exists: true },
+        //         location: location || { $exists: true },
+        //     }
+        // );
+        // const finalJobs = jobs.filter(job => {
+        //     let isSkillMatched = true;
+        //     if (skillsArray.length > 0) {
+        //         isSkillMatched = skillsArray.every(skill => job.skills.includes(skill));
+        //     }
+        //     return isSkillMatched;
+        // });
 
-            await newJob.save();
-            res.status(201).json({
-                message: 'Job added successfully',
-                jobID: newJob._id
-            });
-        } catch (error) {
-            next({
-                message: "Error Adding Job",
-                error
-            });
-        }
-    };
-}
+        res.status(200).json({
+            message: 'Job route is working fine',
+            status: 'Working',
+            jobs
+        })
+    } catch (error) {
+        next({
+            message: 'Error Finding Job',
+            error
+        })
+    }
+};
 
-function getFilteredJobs() {
-    return async (req, res, next) => {
 
-        try {
-            const { title, skills } = req.query;
-            console.log(title, skills);
-            const jobs = await Job.find(
-                {
-                    title: title || { $exists: true },
-                }
-            );
+const updateExistingJob = async (req, res, next) => {
+    try {
+        const jobID = req.params.id;
+        const { companyName, title, description, logoUrl, jobPosition, salary, location, duration, locationType, information, jobType, skills, additionalInformation } = req.body;
+        const refUserId = req.refUserId;
+        const updatedJob = await Job.findByIdAndUpdate(jobID, {
+            companyName,
+            title,
+            description,
+            logoUrl,
+            jobPosition,
+            salary,
+            location,
+            duration,
+            locationType,
+            information,
+            jobType,
+            skills,
+            additionalInformation,
+            refUserId
+        });
 
-            //Handle this in the mongoose query itself
-            res.status(200).json({
-                message: 'Job route is working fine',
-                status: 'Working',
-                jobs: jobs
-            });
-        } catch (error) {
-            next("Error Finding Jobs", error);
-        }
-    };
-}
+        res.status(200).json({
+            message: 'Job updated successfully',
+            job: updatedJob
+        });
+    } catch (error) {
+        next({
+            message: "Error While Updating The Job",
+            error
+        });
+    }
+};
 
-function updateExistingJob() {
-    return async (req, res) => {
-        try {
-            const jobID = req.params.id;
-            const { companyName, title, description, logoUrl, jobPosition, salary, location, duration, locationType, information, jobType, skills } = req.body;
-            const refUserId = req.refUserId;
-            const updatedJob = await Job.findByIdAndUpdate(jobID, {
-                companyName,
-                title,
-                description,
-                logoUrl,
-                jobPosition,
-                salary,
-                location,
-                duration,
-                locationType,
-                information,
-                jobType,
-                skills,
-                refUserId
-            });
-
-            res.status(200).json({
-                message: 'Job updated successfully',
-                job: updatedJob
-            });
-        } catch (error) {
-            next("Error Updating Job", error);
-        }
-    };
-}
-
-function deleteJob() {
-    return async (req, res) => {
-        try {
-            const jobID = req.params.id;
-            await Job.findByIdAndDelete(jobID);
-            res.status(200).json({
-                message: 'Job deleted successfully',
-            });
-        } catch (error) {
-            next("Error Deleting Job", error);
-        }
-    };
-}
+const deleteJob = async (req, res, next) => {
+    try {
+        const jobID = req.params.id;
+        await Job.findByIdAndDelete(jobID);
+        res.status(200).json({
+            message: 'Job deleted successfully',
+        });
+    } catch (error) {
+        next({
+            message: "Error While Deleting The Job",
+            error
+        });
+    }
+};
 
 
 module.exports = {
@@ -129,4 +151,4 @@ module.exports = {
     getFilteredJobs,
     updateExistingJob,
     deleteJob
-};
+}
