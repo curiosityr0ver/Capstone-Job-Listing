@@ -17,6 +17,7 @@ const fetchJobsByQuery = async (query) => {
         title,
         skills
     } = query;
+    console.log(skills);
     try {
         const response = await axios.get(`${BACKEND_ORIGIN_URL}/job`, {
             params: {
@@ -39,5 +40,21 @@ const fetchJobById = async (id) => {
     }
 };
 
+const createJob = async (job) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const response = await axios.post(`${BACKEND_ORIGIN_URL}/job/add`, job, config);
+        console.log(response);
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
 
-export { fetchJobs, fetchJobsByQuery, fetchJobById };
+
+export { fetchJobs, fetchJobsByQuery, fetchJobById, createJob };

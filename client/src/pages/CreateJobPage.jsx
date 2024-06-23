@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import ChipsSelector from "../components/ChipsSelector";
 import styles from "./CreateJobPage.module.css";
+import { createJob } from "../api/Job";
+import { set } from "mongoose";
 
 const CreateJobPage = ({ currentUser }) => {
 	const validJobTypes = ["Full-Time", "Part-Time", "Internship"];
@@ -33,9 +35,28 @@ const CreateJobPage = ({ currentUser }) => {
 		}
 	};
 
-	useEffect(() => {
+	const handleJobCreate = async () => {
 		console.log(job);
-	}, [job]);
+		const response = await createJob(job);
+		if (response.status === 201) {
+			setJob({
+				companyName: "",
+				title: "",
+				description: "",
+				logoUrl: "",
+				jobType: "",
+				salary: "",
+				location: "",
+				duration: "",
+				locationType: "",
+				information: "",
+				skills: [],
+			});
+			alert("Job added successfully");
+		} else {
+			alert("Error adding job");
+		}
+	};
 
 	return (
 		<div className={styles.body}>
@@ -54,129 +75,89 @@ const CreateJobPage = ({ currentUser }) => {
 				<label>Add logo URL</label>
 				<input
 					type="text"
-					value={job.title}
-					onChange={(e) => setJob({ ...job, title: e.target.value })}
+					value={job.logoUrl}
+					onChange={(e) => setJob({ ...job, logoUrl: e.target.value })}
 				/>
 			</div>
 
 			<div className={styles.inputElement}>
-				<label>Title</label>
+				<label>Job Position</label>
 				<input
 					type="text"
 					value={job.title}
 					onChange={(e) => setJob({ ...job, title: e.target.value })}
 				/>
 			</div>
-
 			<div className={styles.inputElement}>
-				<label>Title</label>
+				<label>Duration</label>
 				<input
 					type="text"
-					value={job.title}
-					onChange={(e) => setJob({ ...job, title: e.target.value })}
+					value={job.duration}
+					onChange={(e) => setJob({ ...job, duration: e.target.value })}
 				/>
 			</div>
 
 			<div className={styles.inputElement}>
-				<label>Title</label>
+				<label>Monthly Salary</label>
 				<input
 					type="text"
-					value={job.title}
-					onChange={(e) => setJob({ ...job, title: e.target.value })}
+					value={job.salary}
+					onChange={(e) => setJob({ ...job, salary: e.target.value })}
 				/>
 			</div>
 
 			<div className={styles.inputElement}>
-				<label>Title</label>
+				<label>Job Type</label>
 				<input
 					type="text"
-					value={job.title}
-					onChange={(e) => setJob({ ...job, title: e.target.value })}
+					value={job.jobType}
+					onChange={(e) => setJob({ ...job, jobType: e.target.value })}
 				/>
 			</div>
 
 			<div className={styles.inputElement}>
-				<label>Title</label>
+				<label>Remote/Office</label>
 				<input
 					type="text"
-					value={job.title}
-					onChange={(e) => setJob({ ...job, title: e.target.value })}
+					value={job.locationType}
+					onChange={(e) => setJob({ ...job, locationType: e.target.value })}
 				/>
 			</div>
 
-			<label>Description</label>
-			<input
-				type="text"
-				value={job.description}
-				onChange={(e) => setJob({ ...job, description: e.target.value })}
-			/>
+			<div className={styles.inputElement}>
+				<label>Location</label>
+				<input
+					type="text"
+					value={job.location}
+					onChange={(e) => setJob({ ...job, location: e.target.value })}
+				/>
+			</div>
+			<div className={styles.inputElement}>
+				<label>Job Description</label>
+				<input
+					type="text"
+					value={job.description}
+					onChange={(e) => setJob({ ...job, description: e.target.value })}
+				/>
+			</div>
 
-			<label>Logo URL</label>
-			<input
-				type="text"
-				value={job.logoUrl}
-				onChange={(e) => setJob({ ...job, logoUrl: e.target.value })}
-			/>
-
-			<label>Job Type</label>
-			<select
-				value={job.jobType}
-				onChange={(e) => handleJobTypeChange(e.target.value)}
-			>
-				<option>Select Job Type</option>
-				{validJobTypes.map((type, index) => {
-					return <option key={index}>{type}</option>;
-				})}
-			</select>
-
-			<label>Salary</label>
-			<input
-				type="number"
-				value={job.salary}
-				onChange={(e) => setJob({ ...job, salary: e.target.value })}
-			/>
-
-			<label>Location</label>
-			<input
-				type="text"
-				value={job.location}
-				onChange={(e) => setJob({ ...job, location: e.target.value })}
-			/>
-
-			<label>Duration</label>
-			<input
-				type="text"
-				value={job.duration}
-				onChange={(e) => setJob({ ...job, duration: e.target.value })}
-			/>
-
-			<label>Location Type</label>
-			<select
-				value={job.locationType}
-				onChange={(e) => handleLocationTypeChange(e.target.value)}
-			>
-				<option>Select Location Type</option>
-				{validLocationTypes.map((type, index) => {
-					return <option key={index}>{type}</option>;
-				})}
-			</select>
-
-			<label>Information</label>
-			<input
-				type="text"
-				value={job.information}
-				onChange={(e) => setJob({ ...job, information: e.target.value })}
-			/>
-
-			<hr />
-			<hr />
-			<ChipsSelector
-				selectedSkills={job.skills}
-				setSelectedSkills={(skills) => setJob({ ...job, skills })}
-			/>
+			<div className={styles.inputElement}>
+				<ChipsSelector
+					selectedSkills={job.skills}
+					setSelectedSkills={(skills) => setJob({ ...job, skills })}
+				/>
+			</div>
+			<div className={styles.inputElement}>
+				<label>Information: </label>
+				<input
+					type="text"
+					value={job.information}
+					onChange={(e) => setJob({ ...job, information: e.target.value })}
+				/>
+			</div>
 
 			<button>Cancel</button>
-			<button>+Add Job</button>
+			<button onClick={handleJobCreate}>+Add Job</button>
 		</div>
 	);
 };

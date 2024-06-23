@@ -8,7 +8,6 @@ const verifyToken = (req, res, next) => {
         if (!token) return res.status(401).json({ message: 'Token Not Found or Valid' });
 
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log(decoded);
         req.refUserId = decoded.userID;
         next();
     } catch (error) {
