@@ -1,12 +1,11 @@
 import React from 'react';
+import DefinedSkills from '../data/skills';
 import { useEffect, useState } from 'react';
 
 const ChipsSelection = ({ selectedSkills, setSelectedSkills }) => {
 	const [currentSkill, setCurrentSkill] = useState("");
-	const defaultSkills = ["Frontend", "Backend", "CSS", "JavaScript", "React", "Node.js", "Express", "MongoDB", "REST APIs"];
-
+	const defaultSkills = DefinedSkills;
 	const handleAddSkill = (skill) => {
-		// e.preventDefault();
 		setCurrentSkill(skill);
 	};
 
@@ -29,12 +28,6 @@ const ChipsSelection = ({ selectedSkills, setSelectedSkills }) => {
 			return skill.toLowerCase().includes(currentSkill.toLowerCase());
 		});
 	};
-
-	// useEffect(() => {
-	// 	// console.log(currentSkill);
-	// 	// console.log(selectedSkills);
-	// 	// console.log(suggestSkills());
-	// }, [selectedSkills, currentSkill]);
 
 	return (
 		<div className='flex flex-col justify-start'>
