@@ -10,40 +10,39 @@ function registerUser() {
         try {
             const { name, email, mobile, password } = req.body;
 
-            const existingUser = await User.findOne({ email: email });
+            const existingUser = User.findOne({ email: email });
 
             if (existingUser) {
-                return res.status(400).json({
-                    message: 'User already exists, please use another email address',
-                });
-            } else {
-                const hashedPassword = await bcrypt.hash(password, 10);
-
-                const newUser = new User({
-                    name,
-                    email,
-                    mobile,
-                    password: hashedPassword,
-                });
-                console.log(newUser);
-
-                await newUser.save();
-
-                res.status(201).json({
-                    message: 'User created successfully',
-                    user: newUser
-                });
+                const error = new Error('User already exists, please use another email address');
+                error.statusCode = 400;
+                throw error;
             }
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const newUser = new User({
+                name,
+                email,
+                mobile,
+                password: hashedPassword,
+            });
+            console.log(newUser);
+
+            await newUser.save();
+
+            res.status(201).json({
+                message: 'User created successfully',
+                user: newUser
+            });
         } catch (error) {
             console.log(error);
-            next("Error Creating User", error);
+            next(error);
         }
 
     };
 }
 
 function handleLogin() {
-    return async (req, res) => {
+    return async (req, res, next) => {
         try {
             const { email, password } = req.body;
             const existingUser = await User.findOne({ email: email });

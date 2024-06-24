@@ -1,15 +1,15 @@
 const validateNewJob = (req, res, next) => {
-    const { companyName, title, description, logoUrl, salary, location, duration, locationType, information, jobType, skills } = req.body;
-    const refUserId = req.refUserId;
-    try {
 
+    try {
+        const { companyName, title, description, logoUrl, salary, location, duration, locationType, information, jobType, skills } = req.body;
+        const refUserId = req.refUserId;
         const parsedSalary = parseInt(salary);
 
         if (!companyName || !title || !description || !logoUrl || !parsedSalary || !location || !duration || !locationType || !information || !jobType || !skills || !refUserId) {
 
-            return res.status(400).json({
-                message: 'Please provide all required fields',
-            });
+            const error = new Error(`Missing required fields ${!companyName ? 'companyName' : ''}${!title ? 'title' : ''}${!description ? 'description' : ''}${!logoUrl ? 'logoUrl' : ''}${!parsedSalary ? 'salary' : ''}${!location ? 'location' : ''}${!duration ? 'duration' : ''}${!locationType ? 'locationType' : ''}${!information ? 'information' : ''}${!jobType ? 'jobType' : ''}${!skills ? 'skills' : ''}${!refUserId ? 'refUserId' : ''}`);
+            error.statusCode = 400;
+            throw error;
         }
 
         const validJobTypes = ["Full-Time", "Part-Time", "Internship"];
@@ -20,36 +20,20 @@ const validateNewJob = (req, res, next) => {
         const validLogoUrl = logoUrl.match(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i);
         const validLocationType = validLocationTypes.includes(locationType);
         if (!validJobType) {
-            throw new Error('Invalid job type');
+
+
         }
-        if (!validSkills) {
-            throw new Error('Invalid skills');
+        if (!validSkills || !Array.isArray(skills) || skills.length === 0 || !skills.every(skill => typeof skill === 'string') || !validSalary || !validLogoUrl || !validLocationType) {
+            const error = new Error(`Invalid ${!validSkills ? 'skills' : ''} ${!Array.isArray(skills) ? 'skills' : ''} ${skills.length === 0 ? 'skills' : ''} ${!skills.every(skill => typeof skill === 'string') ? 'skills' : ''} ${!validSalary ? 'salary' : ''} ${!validLogoUrl ? 'logoUrl' : ''} ${!validLocationType ? 'locationType' : ''}`);
+            error.statusCode = 400;
+            throw error;
         }
-        if (!validSalary) {
-            return res.status(400).json({
-                message: 'Invalid salary',
-            });
-        }
-        if (!validLogoUrl) {
-            return res.status(400).json({
-                message: 'Invalid logo URL',
-            });
-        }
-        if (!validLocationType) {
-            return res.status(400).json({
-                message: 'Invalid location type',
-            });
-        }
+
         next();
 
     } catch (error) {
-        next({
-            message: "Error Adding Job",
-            error: error
-        });
+        next(error);
     }
-
-
 };
 
 module.exports = validateNewJob;
