@@ -5,7 +5,7 @@ const BACKEND_ORIGIN_URL = 'http://localhost:3000';
 
 const fetchJobs = async () => {
     try {
-        const response = await axios.get(`${BACKEND_ORIGIN_URL}/job`);
+        const response = await axios.get(`/job`);
         return response;
     } catch (error) {
         return error;
@@ -19,7 +19,7 @@ const fetchJobsByQuery = async (query) => {
     } = query;
     console.log(skills);
     try {
-        const response = await axios.get(`${BACKEND_ORIGIN_URL}/job`, {
+        const response = await axios.get(`/job`, {
             params: {
                 title,
                 skills
