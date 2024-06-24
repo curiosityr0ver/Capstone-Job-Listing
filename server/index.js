@@ -5,12 +5,17 @@ const userRoute = require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
+const path = require("path");
+
 
 const PORT = 3000;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 
