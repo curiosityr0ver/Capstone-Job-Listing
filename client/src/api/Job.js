@@ -33,7 +33,7 @@ const fetchJobsByQuery = async (query) => {
 
 const fetchJobById = async (id) => {
     try {
-        const response = await axios.get(`${BACKEND_ORIGIN_URL}/job/${id}`);
+        const response = await axios.get(`/job/${id}`);
         return response;
     } catch (error) {
         return error;
@@ -48,7 +48,7 @@ const createJob = async (job) => {
                 Authorization: `Bearer ${token}`
             }
         };
-        const response = await axios.post(`${BACKEND_ORIGIN_URL}/job/add`, job, config);
+        const response = await axios.post(`/job/add`, job, config);
         console.log(response);
         return response;
     } catch (error) {
