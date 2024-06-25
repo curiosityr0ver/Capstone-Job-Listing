@@ -10,7 +10,7 @@ function registerUser() {
         try {
             const { name, email, mobile, password } = req.body;
 
-            const existingUser = User.findOne({ email: email });
+            const existingUser = await User.findOne({ email: email });
 
             if (existingUser) {
                 const error = new Error('User already exists, please use another email address');
