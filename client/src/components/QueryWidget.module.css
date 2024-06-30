@@ -1,0 +1,133 @@
+.queryWidget {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(237, 83, 83, 0.5);
+    padding: 20px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input {
+    background-color: transparent;
+    color: grey;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: lightgray;
+}
+
+.filterRow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.skillsSelector {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+
+.selectContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.select {
+    width: 200px;
+    max-height: 42px;
+    background-color: transparent;
+    color: lightgray;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.select:focus {
+    outline: none;
+}
+
+.chipsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    flex: 1;
+}
+
+.chip {
+    background-color: #FFEEEE;
+    color: black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.chipText {
+    padding: 8px;
+}
+
+.chipClose {
+    background-color: #FF6B6B;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.applyButton {
+    background-color: #ed5353;
+    color: white;
+    border: none;
+}
+
+.applyButton:hover {
+    background-color: #d94d4d;
+}
+
+.clearButton {
+    background-color: transparent;
+    color: #ed5353;
+    border: none;
+}
+
+.clearButton:hover {
+    background-color: rgba(237, 83, 83, 0.1);
+}

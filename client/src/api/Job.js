@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_ORIGIN_URL = 'http://localhost:3000';
-
+// const BACKEND_ORIGIN_URL = 'http://localhost:3000';
+const BACKEND_ORIGIN_URL = '';
 
 const fetchJobs = async () => {
     try {
@@ -19,7 +19,7 @@ const fetchJobsByQuery = async (query) => {
     } = query;
     console.log(skills);
     try {
-        const response = await axios.get(`/job`, {
+        const response = await axios.get(`${BACKEND_ORIGIN_URL}/job`, {
             params: {
                 title,
                 skills

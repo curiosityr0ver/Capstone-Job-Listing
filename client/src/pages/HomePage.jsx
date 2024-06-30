@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-
 import { useEffect, useState } from "react";
-import { fetchJobs, fetchJobsByQuery } from "../api/Job";
+import { fetchJobsByQuery } from "../api/Job";
 import { Header } from "../components/Header";
 import { QueryWidget } from "../components/QueryWidget";
 import { JobCard } from "../components/JobCard";
+import styles from "./HomePage.module.css";
 
 function HomePage({ currentUser, setCurrentUser }) {
 	const [jobs, setJobs] = useState([]);
@@ -19,23 +19,26 @@ function HomePage({ currentUser, setCurrentUser }) {
 
 	const handleFetchJobs = async () => {
 		const response = await fetchJobsByQuery(query);
-
-		if (response.status == 200) {
+		if (response.status === 200) {
 			setJobs(response.data.jobs);
 		}
 	};
 
 	return (
-		<div>
+		<div className={styles.homePage}>
 			<Header currentUser={currentUser} setCurrentUser={setCurrentUser} />
-			<QueryWidget
-				query={query}
-				setQuery={setQuery}
-				handleFetchJobs={handleFetchJobs}
-			/>
-			{jobs.map((job, index) => (
-				<JobCard job={job} key={index} />
-			))}
+			<div className={styles.content}>
+				<QueryWidget
+					query={query}
+					setQuery={setQuery}
+					handleFetchJobs={handleFetchJobs}
+				/>
+				<div className={styles.jobs}>
+					{jobs.map((job, index) => (
+						<JobCard job={job} key={index} />
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }

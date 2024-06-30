@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { fetchJobById } from "../api/Job";

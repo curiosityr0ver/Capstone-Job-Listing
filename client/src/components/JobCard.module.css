@@ -1,0 +1,76 @@
+.jobCard {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(237, 83, 83, 0.5);
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 20px;
+}
+
+.jobInfo {
+    flex-grow: 1;
+}
+
+.jobTitle {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.jobDetails {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+.jobDetails span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rightSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.skill {
+    background-color: #ffeeee;
+    color: #000;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+.viewDetailsButton {
+    background-color: #ed5353;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.viewDetailsButton:hover {
+    background-color: #d94d4d;
+}
